@@ -22,8 +22,9 @@ import java.util.Optional;
 
 @Service
 public class IClienteServiceImpl implements IClienteService {
-    private ClienteRepository clienteRepository;
 
+    @Autowired
+    private ClienteRepository clienteRepository;
     @Autowired
     MovimentoRepository movimentoRepository;
     private BigDecimal quantia;
