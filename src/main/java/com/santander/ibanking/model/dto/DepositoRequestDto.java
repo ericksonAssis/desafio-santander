@@ -1,15 +1,15 @@
 package com.santander.ibanking.model.dto;
 
 import jakarta.validation.constraints.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.math.BigDecimal;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Builder
+@Setter
+@Getter
 public class DepositoRequestDto extends TransactionDTO{
 
     @Size(min = 1, max = 20, message = "O numero de conta deve conter de 1 a 20 caracteres")

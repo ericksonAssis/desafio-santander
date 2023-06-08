@@ -14,8 +14,6 @@ import com.santander.ibanking.service.request.RequestType;
 import com.santander.ibanking.service.response.TransacaoResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.io.DataOutput;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -97,7 +95,7 @@ public class IClienteServiceImpl implements IClienteService {
     @Override
     public TransacaoResponse sacar (SaqueRequestDto saqueReqDto){
 
-        Cliente cliente = clienteRepository.findByNumeroConta(saqueReqDto.getNumeroConta()).orElseThrow();
+        Cliente cliente = clienteRepository.findByNumeroConta(saqueReqDto.getNumeroConta()).orElseThrow(() -> new AccountNotFoundException("Conta não encontrada."));
         BigDecimal saldoAtual = cliente.getSaldo();
         boolean planoExclusivo = cliente.getPlanoExclusive();
         taxaAdmin = TaxaAministracao.calculaTaxaDeAdministracao(saqueReqDto.getQuantia(), planoExclusivo);
