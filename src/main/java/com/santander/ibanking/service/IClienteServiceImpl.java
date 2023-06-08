@@ -19,6 +19,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 @Service
 public class IClienteServiceImpl implements IClienteService {
@@ -126,7 +128,14 @@ public class IClienteServiceImpl implements IClienteService {
     @Override
     public TransacaoResponse consultaHistorico (ConsultaHistoricoRequestDto consulta){
         validaCliente(consulta.getNumeroConta(), RequestType.CONSULTA, null);
-        List<Movimento> movimentos = movimentoRepository.findAll();
+
+        Predicate<Movimento> dataInicio = movimento -> movimento.getDataMovimentacao().isAfter(consulta.getDataInicio().atStartOfDay());
+        Predicate<Movimento> dataFim = movimento -> movimento.getDataMovimentacao().isBefore(consulta.getDataFim().plusDays(1).atStartOfDay());
+
+        Predicate<Movimento> between = dataInicio.and(dataFim);
+        List<Movimento> movimentos = movimentoRepository.findAll().stream().filter(between)
+                        .collect(Collectors.toList());
+
         String formattedMessage = String.format("Movimentações do período %s à %s", consulta.getDataInicio(), consulta.getDataFim());
         return TransacaoResponse.builder().objetoTransacionado(movimentos.toString())
                 .message(formattedMessage).build();

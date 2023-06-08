@@ -1,10 +1,7 @@
 package com.santander.ibanking.model.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -12,6 +9,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "historico_movimentacao_conta")
 @Builder
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
